@@ -1,5 +1,6 @@
 package pages.booking;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.junit.Assert;
 
@@ -7,12 +8,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 public class SearchResultsPage {
     private final SelenideElement DESTINATION = $("input.ce45093752");
-    private final SelenideElement FIELD_START = $("[data-testid='date-display-field-start']");
-    private final SelenideElement FIELD_END = $("[data-testid='date-display-field-end']");
-    private final SelenideElement NIGHTS_NUMBER = $(".fca8fcd83b .d8eab2cf7f:last-child");
+    private final SelenideElement FIELD_START_INNER = $("[data-testid='date-display-field-start']");
+    private final SelenideElement FIELD_END_INNER = $("[data-testid='date-display-field-end']");
+    private final ElementsCollection CHECKED_DATES_LIST = $$("div.fa3f76ae6b [aria-checked='true']");
+    private final SelenideElement CURRENT_DATES_RANGE = $("div.caab4cf6d1");
     private final SelenideElement OCCUPANCY = $("[data-testid='occupancy-config']");
     private final SelenideElement SEARCH_RESULT_TITLE = $("h1.d3a14d00da");
 
@@ -22,18 +25,18 @@ public class SearchResultsPage {
         return this;
     }
 
-    public SearchResultsPage checkDatesRange(String datesRange) {
-        String actualStartDate = FIELD_START.getText().split("(,\\s)|(\\s\\d{4})")[1];
-        String actualEndDate = FIELD_END.getText().split("(,\\s)|(\\s\\d{4})")[1];
-        Integer actualNightNumber = Integer.valueOf(NIGHTS_NUMBER.getText().split("\\s")[0]);
+    public SearchResultsPage checkDatesRange(String desiredCheckIn, String desiredCheckOut, String desiredDatesRange) {
+        FIELD_START_INNER.click();
+        String currentCheckIn = CHECKED_DATES_LIST.get(0).getAttribute("data-date");
+        String currentCheckOut = CHECKED_DATES_LIST.get(CHECKED_DATES_LIST.size() - 1).getAttribute("data-date");
 
-        String currentStartDate = datesRange.split("(,\\s)|(\\s-\\D+)|(\\s\\()")[1];
-        String currentEndDate = datesRange.split("(,\\s)|(\\s-\\D+)|(\\s\\()")[2];
-        Integer currentNightNumber = Integer.valueOf(datesRange.split("(\\D+)")[3]);
+        String regex = "(.+\\()|(\\s\\D+)";
+        Integer desiredNightNumber = Integer.valueOf(CURRENT_DATES_RANGE.getText().split(regex)[1]);
+        Integer currentNightNumber = Integer.valueOf(desiredDatesRange.split(regex)[1]);
 
-        Assert.assertEquals(currentStartDate, actualStartDate);
-        Assert.assertEquals(currentEndDate, actualEndDate);
-        Assert.assertEquals(currentNightNumber, actualNightNumber);
+        Assert.assertEquals(desiredCheckIn, currentCheckIn);
+        Assert.assertEquals(desiredCheckOut, currentCheckOut);
+        Assert.assertEquals(desiredNightNumber, currentNightNumber);
         return this;
     }
 

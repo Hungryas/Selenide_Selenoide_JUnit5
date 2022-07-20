@@ -7,12 +7,13 @@ import com.codeborne.selenide.SelenideElement;
 import java.util.List;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Selenide.*;
 
 public class HomePage {
     private final SelenideElement DESTINATION_INPUT = $("#ss.sb-destination__input");
     private final SelenideElement DATES_INNER = $("div.xp__dates-inner");
-    private final SelenideElement DATE_TODAY = $("td.bui-calendar__date--today");
+    private final ElementsCollection CALENDAR_DATES_LIST = $$(".bui-calendar__content td");
     private final SelenideElement GUESTS_TOGGLE = $("label#xp__guests__toggle");
     private final ElementsCollection GUESTS_COUNT_LIST = $$("span.bui-stepper__display");
     private final ElementsCollection SUBTRACT_BUTTON_LIST = $$("button.bui-stepper__subtract-button");
@@ -31,11 +32,10 @@ public class HomePage {
         return this;
     }
 
-    public HomePage enterDateRange() {
+    public HomePage enterDateRange(String checkIn, String checkOut) {
         DATES_INNER.click();
-        // TODO Case: last week
-        DATE_TODAY.click();
-        DATE_TODAY.ancestor(".bui-calendar__row").sibling(0).find(".bui-calendar__date").click();
+        CALENDAR_DATES_LIST.find(attribute("data-date", checkIn)).click();
+        CALENDAR_DATES_LIST.find(attribute("data-date", checkOut)).click();
         // TODO Set displayed
         DATES_INNER.click();
         setDatesRange();
