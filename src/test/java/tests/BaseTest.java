@@ -10,19 +10,19 @@ import org.junit.Before;
 
 public abstract class BaseTest {
 
-    public static final ProjectConfig cfg = ConfigFactory.create(ProjectConfig.class);
+    public static ProjectConfig cfg = ConfigFactory.create(ProjectConfig.class);
 
     @Before
-    public void setUp() {
-        WebDriverManager.chromedriver().setup();
-        Configuration.browser = "chrome";
+    public void setup() {
+        WebDriverManager.edgedriver().setup();
+        Configuration.browser = "edge";
         Configuration.driverManagerEnabled = false;
         Configuration.headless = false;
         Configuration.browserSize = "1920x1080";
     }
 
     @After
-    public void turnDown() {
+    public void teardown() {
         Selenide.closeWebDriver();
     }
 }

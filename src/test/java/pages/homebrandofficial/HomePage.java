@@ -1,8 +1,6 @@
-package pages;
+package pages.homebrandofficial;
 
 import com.codeborne.selenide.SelenideElement;
-
-import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.$;
@@ -19,7 +17,8 @@ public class HomePage {
         return this;
     }
 
-    public void openCatalogWear() {
-        CATALOG_WEAR.shouldBe(appear, Duration.ofSeconds(10)).click();
+    public HomePage openCatalogWear() {
+        CATALOG_WEAR.shouldBe(appear).click();
+        return this;
     }
 }

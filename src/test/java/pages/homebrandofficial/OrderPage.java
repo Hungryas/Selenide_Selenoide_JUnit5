@@ -1,4 +1,4 @@
-package pages;
+package pages.homebrandofficial;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;

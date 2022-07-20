@@ -1,4 +1,4 @@
-package tests;
+package tests.homebrandofficial;
 
 import com.codeborne.selenide.Configuration;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -16,6 +16,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+/** Selenium
+ */
 public class SearchProductTest {
     private WebDriver driver;
 

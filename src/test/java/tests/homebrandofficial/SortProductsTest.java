@@ -1,11 +1,10 @@
-package tests;
+package tests.homebrandofficial;
 
 import org.junit.Assert;
 import org.junit.Test;
-import pages.HomePage;
-import pages.OrderPage;
-import pages.ProductPage;
-import pages.WearPage;
+import pages.homebrandofficial.HomePage;
+import pages.homebrandofficial.WearPage;
+import tests.BaseTest;
 
 public class SortProductsTest extends BaseTest {
     private static HomePage homePage ;

@@ -1,12 +1,13 @@
-package tests;
+package tests.homebrandofficial;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import pages.HomePage;
-import pages.OrderPage;
-import pages.ProductPage;
-import pages.WearPage;
+import pages.homebrandofficial.HomePage;
+import pages.homebrandofficial.OrderPage;
+import pages.homebrandofficial.ProductPage;
+import pages.homebrandofficial.WearPage;
+import tests.BaseTest;
 
 public class SendOrderTest extends BaseTest {
     private final String PRODUCT_NAME = "Футболка поло черная (м)";
