@@ -4,6 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
@@ -20,6 +21,7 @@ public class HomePage {
     private final ElementsCollection ADD_BUTTON_LIST = $$("button.bui-stepper__add-button");
     private final SelenideElement SUBMIT_BUTTON = $("div.-submit-button");
     private final SelenideElement DATES_RANGE = $("div.bui-calendar__display");
+    private final SelenideElement ONETRUST_BANNER_ACCEPT = $("button#onetrust-accept-btn-handler");
     private static String datesRange;
 
     public HomePage openPage() {
@@ -32,26 +34,27 @@ public class HomePage {
         return this;
     }
 
-    public HomePage enterDateRange(String checkIn, String checkOut) {
+    public HomePage enterDateRange(LocalDate checkIn, LocalDate checkOut) {
+        if (ONETRUST_BANNER_ACCEPT.isDisplayed()) ONETRUST_BANNER_ACCEPT.click();
         DATES_INNER.click();
-        CALENDAR_DATES_LIST.find(attribute("data-date", checkIn)).click();
-        CALENDAR_DATES_LIST.find(attribute("data-date", checkOut)).click();
+        CALENDAR_DATES_LIST.find(attribute("data-date", checkIn.toString())).click();
+        CALENDAR_DATES_LIST.find(attribute("data-date", checkOut.toString())).click();
         // TODO Set displayed
         DATES_INNER.click();
         setDatesRange();
         return this;
     }
 
-    public HomePage enterGuestsCounts(List<Integer> desiredCounts) {
+    public HomePage enterGuestsCounts(List<Integer> expectedCounts) {
         GUESTS_TOGGLE.click();
-        List<Integer> currentCounts = GUESTS_COUNT_LIST.shouldHave(sizeGreaterThan(0)).texts()
+        List<Integer> actualCounts = GUESTS_COUNT_LIST.shouldHave(sizeGreaterThan(0)).texts()
                 .stream().map(Integer::parseInt).toList();
         for (int i = 0; i < 3; i++) {
-            int desired = desiredCounts.get(i);
-            int current = currentCounts.get(i);
-            if (current != desired) {
-                if (desired > current) clickAddButton(i, desired - current);
-                else clickSubtractButton(i, current - desired);
+            int expected = expectedCounts.get(i);
+            int actual = actualCounts.get(i);
+            if (actual != expected) {
+                if (expected > actual) clickAddButton(i, expected - actual);
+                else clickSubtractButton(i, actual - expected);
             }
         }
         return this;
