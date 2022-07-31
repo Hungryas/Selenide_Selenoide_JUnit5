@@ -1,24 +1,26 @@
-package tests;
+package tests.booking;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import config.ProjectConfig;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.aeonbits.owner.ConfigFactory;
 import org.junit.After;
 import org.junit.Before;
 
 public abstract class BaseTest {
 
-    public static ProjectConfig cfg = ConfigFactory.create(ProjectConfig.class);
-
     @Before
     public void setup() {
         WebDriverManager.chromedriver().setup();
+        Configuration.baseUrl = "https://www.booking.com";
         Configuration.browser = "chrome";
-        Configuration.driverManagerEnabled = false;
-        Configuration.headless = false;
         Configuration.browserSize = "1920x1080";
+
+        // Selenoid
+//        Configuration.remote = "http://localhost:4444/wd/hub";
+//        ChromeOptions chromeOptions = new ChromeOptions();
+//        chromeOptions.setCapability("enableVNC", true);
+//        chromeOptions.addArguments("--lang=ru_RU");
+//        Configuration.browserCapabilities = chromeOptions;
     }
 
     @After
