@@ -22,10 +22,7 @@ public class HomePage {
     private final SelenideElement DATES_INNER = $("div.xp__dates-inner");
     private final SelenideElement GUESTS_TOGGLE = $("label#xp__guests__toggle");
     private final SelenideElement SUBMIT_BUTTON = $("div.-submit-button");
-    private final SelenideElement DATES_RANGE = $("div.bui-calendar__display");
     private final SelenideElement ONETRUST_BANNER_ACCEPT = $("button#onetrust-accept-btn-handler");
-
-    private String datesRange;
 
     @Step("Открыть домашнюю страницу сервиса.")
     public HomePage openPage() {
@@ -46,9 +43,6 @@ public class HomePage {
         CALENDAR_DATES_LIST.find(attribute("data-date", checkOut.toString())).click();
         // TODO Set displayed
         DATES_INNER.click();
-
-        setDatesRange();
-
         return this;
     }
 
@@ -84,13 +78,5 @@ public class HomePage {
         for (int i = 0; i < value; i++) {
             SUBTRACT_BUTTON_LIST.get(guest).click();
         }
-    }
-
-    public String getDatesRange() {
-        return datesRange;
-    }
-
-    private void setDatesRange() {
-        datesRange = DATES_RANGE.getText();
     }
 }

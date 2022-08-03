@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selenide;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public abstract class BaseTest {
 
@@ -16,11 +17,11 @@ public abstract class BaseTest {
         Configuration.browserSize = "1920x1080";
 
         // Selenoid
-//        Configuration.remote = "http://localhost:4444/wd/hub";
-//        ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.setCapability("enableVNC", true);
-//        chromeOptions.addArguments("--lang=ru_RU");
-//        Configuration.browserCapabilities = chromeOptions;
+        Configuration.remote = "http://localhost:4444/wd/hub";
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setCapability("enableVNC", true);
+        chromeOptions.addArguments("--lang=ru_RU");
+        Configuration.browserCapabilities = chromeOptions;
     }
 
     @After

@@ -1,16 +1,17 @@
 package pages.booking;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -39,22 +40,19 @@ public class SearchResultsPage {
     }
 
     @Step("Проверить, что даты заезда и отъезда соответствуют введенным при поиске, а также количество ночей.")
-    // TODO Change expectedDatesRange to int
-    public SearchResultsPage checkDatesRange(LocalDate expectedCheckIn, LocalDate expectedCheckOut, String expectedDatesRange) {
+    public SearchResultsPage checkDatesRange(LocalDate expectedCheckIn, LocalDate expectedCheckOut, Long expectedDatesRange) {
         FIELD_START_INNER.click();
         LocalDate actualCheckIn = LocalDate.parse(Objects.requireNonNull(
-                CHECKED_DATES_LIST.shouldHave(CollectionCondition.sizeGreaterThan(0))
-                        .get(0).shouldNotBe(empty).getAttribute("data-date")));
+                CHECKED_DATES_LIST.shouldHave(sizeGreaterThan(0)).
+                        get(0).shouldNotBe(empty).getAttribute("data-date")));
         LocalDate actualCheckOut = LocalDate.parse(Objects.requireNonNull(
-                CHECKED_DATES_LIST.shouldHave(CollectionCondition.sizeGreaterThan(0))
-                        .get(CHECKED_DATES_LIST.size() - 1).shouldNotBe(empty).getAttribute("data-date")));
-        String regex = "(.+\\()|(\\s\\D+)";
-        Integer expectedNightNumber = Integer.valueOf(CURRENT_DATES_RANGE.getText().split(regex)[1]);
-        Integer actualNightNumber = Integer.valueOf(expectedDatesRange.split(regex)[1]);
+                CHECKED_DATES_LIST.shouldHave(sizeGreaterThan(0)).
+                        get(CHECKED_DATES_LIST.size() - 1).shouldNotBe(empty).getAttribute("data-date")));
+        Long actualDataRange = ChronoUnit.DAYS.between(actualCheckIn, actualCheckOut);
 
         assertEquals(expectedCheckIn, actualCheckIn);
         assertEquals(expectedCheckOut, actualCheckOut);
-        assertEquals(expectedNightNumber, actualNightNumber);
+        assertEquals(expectedDatesRange, actualDataRange);
         return this;
     }
 

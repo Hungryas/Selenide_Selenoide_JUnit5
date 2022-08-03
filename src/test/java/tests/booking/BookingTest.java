@@ -18,12 +18,12 @@ public class BookingTest extends BaseTest {
     private static SearchResultsPage searchResultsPage = new SearchResultsPage();
     private static MapFullOverlayPage mapFullOverlayPage = new MapFullOverlayPage();
 
-    private final String DESTINATION = "Барселона";
+    private final String DESTINATION = "Barcelona";
     private final Integer ADULT_COUNT = 1;
     private final Integer CHILDREN_COUNT = 0;
     private final Integer ROOM_COUNT = 1;
     private final Integer RATING = 5;
-    private final Integer DATE_RANGE = 7;
+    private final Long DATE_RANGE = 7L;
     private final LocalDate CHECK_IN = LocalDate.now().plusDays(1);
     private final LocalDate CHECK_OUT = CHECK_IN.plusDays(DATE_RANGE);
 
@@ -41,7 +41,7 @@ public class BookingTest extends BaseTest {
     @Description("Проверка соответствия результатов поиска введенным данным.")
     public void checkSearchDetails() {
         searchResultsPage.checkDestinationValue(DESTINATION)
-                .checkDatesRange(CHECK_IN, CHECK_OUT, homePage.getDatesRange())
+                .checkDatesRange(CHECK_IN, CHECK_OUT, DATE_RANGE)
                 .checkOccupancy(List.of(ADULT_COUNT, CHILDREN_COUNT, ROOM_COUNT))
                 .checkResultsCount();
     }
