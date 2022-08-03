@@ -6,7 +6,10 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -44,12 +47,28 @@ public class GetUserRequestTest {
     }
 
     @Test
-    @DisplayName("Успешное получение данных всех пользователей с параметрами.")
-    public void checkGetUsersWithParam() {
+    @DisplayName("Успешное получение данных всех пользователей с параметрами page и per_page.")
+    public void checkGetUsersWithPerPage() {
         int page = 1;
         int per_page = 12;
-        List<GetUserRequest> userList = UsersApi.getUsersSuccessWithParam(page, per_page);
+        Map<String, Integer> paramsMap = Map.of("page", page, "per_page", per_page);
+        List<GetUserRequest> userList = UsersApi.getUsersSuccessWithParam(paramsMap);
+
         assertTrue(userList.contains(TEST_USER));
         assertEquals(userList.size(), per_page);
+    }
+
+    @Test
+    @DisplayName("Успешное получение данных всех пользователей с параметром delay.")
+    public void checkGetUsersWithDelay() {
+        int delay = 4;
+        LocalDateTime startRequest = LocalDateTime.now();
+        Map<String, Integer> paramsMap = Map.of("delay", delay);
+        List<GetUserRequest> userList = UsersApi.getUsersSuccessWithParam(paramsMap);
+        LocalDateTime finishRequest = LocalDateTime.now();
+        long actualDelay = ChronoUnit.SECONDS.between(startRequest, finishRequest);
+
+        assertTrue(userList.contains(TEST_USER));
+        assertTrue(actualDelay > delay);
     }
 }

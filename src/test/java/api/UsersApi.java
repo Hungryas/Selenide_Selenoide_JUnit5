@@ -4,8 +4,10 @@ import api.models.*;
 import io.qameta.allure.Step;
 
 import java.util.List;
+import java.util.Map;
 
-import static api.Specification.*;
+import static api.Specification.requestSpec;
+import static api.Specification.responseSpec;
 import static api.endpoints.UsersEndpoints.*;
 import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.*;
@@ -76,13 +78,12 @@ public class UsersApi {
                 .extract().jsonPath().getList("data", GetUserRequest.class);
     }
 
-    @Step("Отправить запрос с параметрами 'page'={page}, 'per_page'={per_page}.")
-    public static List<GetUserRequest> getUsersSuccessWithParam(int page, int per_page) {
+    @Step("Отправить запрос с параметрами {parametersMap}.")
+    public static List<GetUserRequest> getUsersSuccessWithParam(Map parametersMap) {
         return given()
                 .spec(requestSpec())
                 .when()
-                .queryParam("page", page)
-                .queryParam("per_page", per_page)
+                .queryParams(parametersMap)
                 .get(USERS.getUrl())
                 .then()
                 .spec(responseSpec(SC_OK))

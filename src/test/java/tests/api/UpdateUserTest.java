@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.time.LocalDateTime;
 
+import static java.time.Clock.systemUTC;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -21,7 +22,7 @@ public class UpdateUserTest {
     @Test
     @DisplayName("Проверка успешного обновления пользователя через PUT запрос.")
     public void checkPutUpdateUser() {
-        LocalDateTime responseTime = LocalDateTime.now();
+        LocalDateTime responseTime = LocalDateTime.now(systemUTC());
         CreateUserRequest createUserRequest = new CreateUserRequest(USER_NAME, USER_JOB);
         UpdateUserResponse updateUserResponse = UsersApi.putUpdateUserResponse(createUserRequest, USER_ID);
 
@@ -29,13 +30,13 @@ public class UpdateUserTest {
         assertEquals(USER_JOB, updateUserResponse.getJob());
 
         LocalDateTime actualTime = updateUserResponse.getUpdatedAt();
-        assertTrue(actualTime.isBefore(responseTime));
+        assertTrue(actualTime.isAfter(responseTime));
     }
 
     @Test
     @DisplayName("Проверка успешного обновления пользователя через PATCH запрос.")
     public void checkPatchUpdateUser() {
-        LocalDateTime responseTime = LocalDateTime.now();
+        LocalDateTime responseTime = LocalDateTime.now(systemUTC());
         CreateUserRequest createUserRequest = new CreateUserRequest(USER_NAME, USER_JOB);
         UpdateUserResponse updateUserResponse = UsersApi.putUpdateUserResponse(createUserRequest, USER_ID);
 
@@ -43,6 +44,6 @@ public class UpdateUserTest {
         assertEquals(USER_JOB, updateUserResponse.getJob());
 
         LocalDateTime actualTime = updateUserResponse.getUpdatedAt();
-        assertTrue(actualTime.isBefore(responseTime));
+        assertTrue(actualTime.isAfter(responseTime));
     }
 }
