@@ -2,6 +2,8 @@ package tests.homebrandofficial;
 
 import com.codeborne.selenide.Configuration;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Epic;
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,8 +18,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-/** Selenium
+/**
+ * Selenium
  */
+@Epic("Проверки поиска товара.")
 public class SearchProductTest {
     private WebDriver driver;
 
@@ -35,6 +39,7 @@ public class SearchProductTest {
     }
 
     @Test
+    @DisplayName("Успешная проверка поиска товара по названию.")
     public void checkingSearchProduct() {
         String productName = "ФУТБОЛКА ПОЛО ЧЕРНАЯ (М)";
         Integer productPrice = 2800;
