@@ -74,8 +74,7 @@ public class SearchResultsPage {
     public SearchResultsPage checkCardsCountFilteredByRating(Integer rating) {
         final String RATING_LOCATOR = String.format("[data-filters-item='class:class=%s']", rating);
         FILTERS_SIDEBAR.find(RATING_LOCATOR).scrollTo().click();
-        // TODO CASE Search with cache
-        OVERLAY_CARD.shouldBe(visible).shouldBe(disappear);
+        if (OVERLAY_CARD.isDisplayed()) {OVERLAY_CARD.shouldBe(disappear);}
 
         final String CARD_RATING_LOCATOR = String.format(".//*[@data-testid='rating-stars'][count(span)=%s]", rating);
         int actualCardsCount = SEARCH_RESULTS_TABLE.findAll(By.xpath(CARD_RATING_LOCATOR)).size();

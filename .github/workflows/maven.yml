@@ -1,0 +1,28 @@
+name: Run tests
+
+env:
+  OS: ubuntu-latest
+
+on:
+  workflow_dispatch
+#  schedule:
+#    - cron: '44 18 3 8 *'
+
+jobs:
+  install_dependency_and_run_UI_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Download Selenoide"
+        run: curl -s https://aerokube.com/cm/bash  | bash
+      - name: "Give execution permissions to binary"
+        run: chmod +x ./cm
+      - name: "Start Selenoide"
+        run: ./cm selenoid start --vnc
+      - name: "Start Selenoid UI"
+        run: ./cm selenoid-ui start
+      - name: "Use main repository"
+        uses: actions/checkout@v1
+      - name: "Run tests"
+        run: mvn -e clean test
+#      - name: "Create reports"
+#        run: mvn allure:serve

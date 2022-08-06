@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.time.LocalDateTime;
 
+import static java.time.Clock.systemUTC;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -20,7 +21,7 @@ public class CreateUserTest {
     public void checkCreateUser() {
         String name = "Name";
         String job = "Job";
-        LocalDateTime responseTime = LocalDateTime.now();
+        LocalDateTime responseTime = LocalDateTime.now(systemUTC());
 
         CreateUserRequest createUserRequest = new CreateUserRequest(name, job);
         CreateUserResponse createUserResponse = UsersApi.createUserSuccess(createUserRequest);
@@ -29,7 +30,7 @@ public class CreateUserTest {
         assertEquals(job, createUserResponse.getJob());
 
         LocalDateTime actualTime = createUserResponse.getCreatedAt();
-        assertTrue(actualTime.isBefore(responseTime));
+        assertTrue(actualTime.isAfter(responseTime));
     }
 
     @Test

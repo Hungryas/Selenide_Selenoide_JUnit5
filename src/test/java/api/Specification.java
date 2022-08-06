@@ -8,8 +8,6 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
 import static io.restassured.http.ContentType.JSON;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
 public class Specification {
 
@@ -27,7 +25,6 @@ public class Specification {
     public static ResponseSpecification responseSpec(int statusCode) {
         return new ResponseSpecBuilder()
                 .expectStatusCode(statusCode)
-                .expectResponseTime(lessThanOrEqualTo(3L), SECONDS)
                 .log(LogDetail.BODY)
                 .build();
     }

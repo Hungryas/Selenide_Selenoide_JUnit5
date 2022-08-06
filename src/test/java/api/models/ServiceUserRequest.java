@@ -1,18 +1,12 @@
 package api.models;
 
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 public class ServiceUserRequest {
     private String email;
     private String password;
-
-    public ServiceUserRequest(String user_email) {
-        this.email = user_email;
-    }
 }

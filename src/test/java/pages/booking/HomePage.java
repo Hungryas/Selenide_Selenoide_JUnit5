@@ -41,7 +41,6 @@ public class HomePage {
         DATES_INNER.click();
         CALENDAR_DATES_LIST.find(attribute("data-date", checkIn.toString())).click();
         CALENDAR_DATES_LIST.find(attribute("data-date", checkOut.toString())).click();
-        // TODO Set displayed
         DATES_INNER.click();
         return this;
     }
