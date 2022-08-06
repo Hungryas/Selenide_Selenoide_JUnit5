@@ -15,6 +15,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -74,11 +75,11 @@ public class SearchResultsPage {
     public SearchResultsPage checkCardsCountFilteredByRating(Integer rating) {
         final String RATING_LOCATOR = String.format("[data-filters-item='class:class=%s']", rating);
         FILTERS_SIDEBAR.find(RATING_LOCATOR).scrollTo().click();
-        if (OVERLAY_CARD.isDisplayed()) {OVERLAY_CARD.shouldBe(disappear);}
+        if (OVERLAY_CARD.isDisplayed()) {OVERLAY_CARD.shouldBe(disappear, ofSeconds(8));}
 
-        final String CARD_RATING_LOCATOR = String.format(".//*[@data-testid='rating-stars'][count(span)=%s]", rating);
-        int actualCardsCount = SEARCH_RESULTS_TABLE.findAll(By.xpath(CARD_RATING_LOCATOR)).size();
+        final String CARD_RATING_LOCATOR = String.format(".//*[contains(@data-testid,'rating')][count(span)=%s]", rating);
         int expectedCardsCount = SEARCH_RESULTS_TABLE.findAll("[data-testid='property-card']").size();
+        int actualCardsCount = SEARCH_RESULTS_TABLE.findAll(By.xpath(CARD_RATING_LOCATOR)).size();
         assertEquals(expectedCardsCount, actualCardsCount);
         return this;
     }

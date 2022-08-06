@@ -69,7 +69,7 @@ public class GetUserRequestTest {
         LocalDateTime finishRequest = LocalDateTime.now();
         long actualDelay = ChronoUnit.SECONDS.between(startRequest, finishRequest);
 
-        assertTrue(userList.contains(TEST_USER));
-        assertTrue(actualDelay > delay);
+        assertTrue("User not found!", userList.contains(TEST_USER));
+        assertTrue("Delay error!", actualDelay > delay);
     }
 }
