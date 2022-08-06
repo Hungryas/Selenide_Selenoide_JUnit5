@@ -4,9 +4,10 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.disappear;
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 
 public class MapFullOverlayPage {
@@ -19,11 +20,12 @@ public class MapFullOverlayPage {
         final String RATING_LOCATOR = String.format("[data-filters-item='class:class=%s']", rating);
         FILTERS_CONTAINER.find(RATING_LOCATOR).scrollTo().click();
 
-        CARDS_LOADER.shouldBe(visible).shouldBe(disappear);
+        if (CARDS_LOADER.isDisplayed()) {CARDS_LOADER.shouldBe(disappear, ofSeconds(6));}
 
         final String CARD_RATING_LOCATOR = String.format(".//*[contains(@class, 'bui-rating')][count(span)=%s]", rating);
-        int actualCardsCount = CARDS_CONTAINER.findAll(By.xpath(CARD_RATING_LOCATOR)).size();
         int expectedCardsCount = CARDS_CONTAINER.findAll("div.map-card__content-container").size();
+        int actualCardsCount = CARDS_CONTAINER.findAll(By.xpath(CARD_RATING_LOCATOR))
+                .shouldHave(sizeGreaterThan(0)).size();
         assertEquals(expectedCardsCount, actualCardsCount);
         return this;
     }

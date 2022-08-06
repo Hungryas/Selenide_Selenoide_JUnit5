@@ -35,7 +35,7 @@ public class OrderPage {
 
     @Step("Ввести ФИО полностью*: {data}")
     public OrderPage enterName(String data) {
-        FIELD_NAME.clear();
+        FIELD_NAME.shouldBe(visible).clear();
         FIELD_NAME.sendKeys(data);
         return this;
     }
