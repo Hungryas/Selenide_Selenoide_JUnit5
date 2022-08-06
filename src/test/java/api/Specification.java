@@ -3,7 +3,6 @@ package api;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.filter.log.LogDetail;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
@@ -18,14 +17,14 @@ public class Specification {
                 .addFilter(new AllureRestAssured())
                 .setBaseUri(BASE_URI)
                 .setContentType(JSON)
-                .log(LogDetail.BODY)
+//                .log(BODY)
                 .build();
     }
 
     public static ResponseSpecification responseSpec(int statusCode) {
         return new ResponseSpecBuilder()
                 .expectStatusCode(statusCode)
-                .log(LogDetail.BODY)
+//                .log(BODY)
                 .build();
     }
 }

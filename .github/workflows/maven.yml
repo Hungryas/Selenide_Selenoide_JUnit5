@@ -12,22 +12,22 @@ jobs:
   install_dependency_and_run_UI_tests:
     runs-on: ubuntu-latest
     steps:
-      - name: "Download Selenoide"
+      - name: "Download Selenoid"
         run: curl -s https://aerokube.com/cm/bash  | bash
       - name: "Give execution permissions to binary"
         run: chmod +x ./cm
-      - name: "Start Selenoide"
+      - name: "Start Selenoid"
         run: ./cm selenoid start --vnc
       - name: "Start Selenoid UI"
         run: ./cm selenoid-ui start
-      - name: "Use main repository"
+      - name: "Checkout main branch"
         uses: actions/checkout@v3
-      - name: Set up JDK 17
+      - name: "Set up JDK 17"
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
       - name: "Run tests"
-        run: mvn -e clean test
+        run: mvn clean test
 #      - name: "Create reports"
 #        run: mvn allure:serve

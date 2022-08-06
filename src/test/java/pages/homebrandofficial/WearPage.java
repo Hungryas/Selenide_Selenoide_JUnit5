@@ -46,7 +46,7 @@ public class WearPage {
                 .map(e -> e.getAttribute("data-product-price-def")).filter(Objects::nonNull)
                 .map(Integer::parseInt).toList();
         List<Integer> expectedPricesOrder = actualPricesOrder.stream().sorted().toList();
-        assertEquals("Ошибка сортировки!", expectedPricesOrder, actualPricesOrder);
+        assertEquals("Sort error!", expectedPricesOrder, actualPricesOrder);
         return this;
     }
 }

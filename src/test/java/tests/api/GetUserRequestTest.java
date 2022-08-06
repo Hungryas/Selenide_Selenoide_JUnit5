@@ -7,10 +7,10 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
+import static java.time.temporal.ChronoUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -66,10 +66,11 @@ public class GetUserRequestTest {
         LocalDateTime startRequest = LocalDateTime.now();
         Map<String, Integer> paramsMap = Map.of("delay", delay);
         List<GetUserRequest> userList = UsersApi.getUsersSuccessWithParam(paramsMap);
+
         LocalDateTime finishRequest = LocalDateTime.now();
-        long actualDelay = ChronoUnit.SECONDS.between(startRequest, finishRequest);
+        long actualDelay = SECONDS.between(startRequest, finishRequest);
 
         assertTrue("User not found!", userList.contains(TEST_USER));
-        assertTrue("Delay error!", actualDelay > delay);
+        assertTrue(String.format("Delay error! start: %s, finish: %s, delay: %s.", startRequest, finishRequest, actualDelay), actualDelay >= delay);
     }
 }

@@ -6,8 +6,9 @@ import api.models.LoginUserResponse;
 import api.models.ServiceUserRequest;
 import io.qameta.allure.Epic;
 import io.qameta.allure.junit4.DisplayName;
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 @Epic("Проверка авторизации пользователя.")
 public class LoginUserTest {
@@ -25,7 +26,7 @@ public class LoginUserTest {
                 .password(USER_PASS).build();
         LoginUserResponse loginUserResponse = UsersApi.loginUser(serviceUserRequest);
 
-        Assert.assertEquals(USER_TOKEN, loginUserResponse.getToken());
+        assertEquals(USER_TOKEN, loginUserResponse.getToken());
     }
 
     @Test
@@ -35,7 +36,7 @@ public class LoginUserTest {
 
         ServiceUserRequest serviceUserRequest = ServiceUserRequest.builder().email(USER_EMAIL).build();
         BadRequestResponse badRequestResponse = UsersApi.loginUserWithoutData(serviceUserRequest);
-        Assert.assertEquals(RESPONSE_ERROR, badRequestResponse.getError());
+        assertEquals(RESPONSE_ERROR, badRequestResponse.getError());
     }
 
     @Test
@@ -45,6 +46,6 @@ public class LoginUserTest {
 
         ServiceUserRequest serviceUserRequest = ServiceUserRequest.builder().build();
         BadRequestResponse badRequestResponse = UsersApi.loginUserWithoutData(serviceUserRequest);
-        Assert.assertEquals(RESPONSE_ERROR, badRequestResponse.getError());
+        assertEquals(RESPONSE_ERROR, badRequestResponse.getError());
     }
 }

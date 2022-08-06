@@ -6,8 +6,9 @@ import api.models.RegisterUserResponse;
 import api.models.ServiceUserRequest;
 import io.qameta.allure.Epic;
 import io.qameta.allure.junit4.DisplayName;
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 @Epic("Проверка регистрации пользователя.")
 public class RegisterUserTest {
@@ -25,8 +26,8 @@ public class RegisterUserTest {
                 .password(USER_PASS).build();
         RegisterUserResponse registerUserResponse = UsersApi.registerUser(serviceUserRequest);
 
-        Assert.assertEquals(USER_ID, registerUserResponse.getId());
-        Assert.assertEquals(USER_TOKEN, registerUserResponse.getToken());
+        assertEquals(USER_ID, registerUserResponse.getId());
+        assertEquals(USER_TOKEN, registerUserResponse.getToken());
     }
 
     @Test
@@ -36,7 +37,7 @@ public class RegisterUserTest {
 
         ServiceUserRequest serviceUserRequest = ServiceUserRequest.builder().email(USER_EMAIL).build();
         BadRequestResponse badRequestResponse = UsersApi.registerUserWithoutData(serviceUserRequest);
-        Assert.assertEquals(RESPONSE_ERROR, badRequestResponse.getError());
+        assertEquals(RESPONSE_ERROR, badRequestResponse.getError());
     }
 
     @Test
@@ -46,6 +47,6 @@ public class RegisterUserTest {
 
         ServiceUserRequest serviceUserRequest = ServiceUserRequest.builder().build();
         BadRequestResponse badRequestResponse = UsersApi.registerUserWithoutData(serviceUserRequest);
-        Assert.assertEquals(RESPONSE_ERROR, badRequestResponse.getError());
+        assertEquals(RESPONSE_ERROR, badRequestResponse.getError());
     }
 }
