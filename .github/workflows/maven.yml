@@ -9,7 +9,7 @@ on:
 #    - cron: '44 18 3 8 *'
 
 jobs:
-  install_dependency_and_run_UI_tests:
+  job1:
     runs-on: ubuntu-latest
     steps:
       - name: "Download Selenoid"
@@ -27,7 +27,12 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
       - name: "Run tests"
         run: mvn clean test
-#      - name: "Create reports"
-#        run: mvn allure:serve
+#    - name: "Create reports"
+#      run: mvn allure:serve
