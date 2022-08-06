@@ -38,7 +38,7 @@ public class UpdateUserTest {
     public void checkPatchUpdateUser() {
         LocalDateTime responseTime = LocalDateTime.now(systemUTC());
         CreateUserRequest createUserRequest = new CreateUserRequest(USER_NAME, USER_JOB);
-        UpdateUserResponse updateUserResponse = UsersApi.putUpdateUserResponse(createUserRequest, USER_ID);
+        UpdateUserResponse updateUserResponse = UsersApi.patchUpdateUserResponse(createUserRequest, USER_ID);
 
         assertEquals(USER_NAME, updateUserResponse.getName());
         assertEquals(USER_JOB, updateUserResponse.getJob());

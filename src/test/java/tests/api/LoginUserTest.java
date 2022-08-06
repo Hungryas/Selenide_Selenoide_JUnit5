@@ -19,7 +19,10 @@ public class LoginUserTest {
         String USER_PASS = "i*gjsH26$b";
         String USER_TOKEN = "QpwL5tke4Pnpja7X4";
 
-        ServiceUserRequest serviceUserRequest = new ServiceUserRequest(USER_EMAIL, USER_PASS);
+
+        ServiceUserRequest serviceUserRequest = ServiceUserRequest.builder()
+                .email(USER_EMAIL)
+                .password(USER_PASS).build();
         LoginUserResponse loginUserResponse = UsersApi.loginUser(serviceUserRequest);
 
         Assert.assertEquals(USER_TOKEN, loginUserResponse.getToken());
@@ -30,7 +33,7 @@ public class LoginUserTest {
     public void checkLoginUserWithoutPass() {
         String RESPONSE_ERROR = "Missing password";
 
-        ServiceUserRequest serviceUserRequest = new ServiceUserRequest(USER_EMAIL);
+        ServiceUserRequest serviceUserRequest = ServiceUserRequest.builder().email(USER_EMAIL).build();
         BadRequestResponse badRequestResponse = UsersApi.loginUserWithoutData(serviceUserRequest);
         Assert.assertEquals(RESPONSE_ERROR, badRequestResponse.getError());
     }
@@ -40,7 +43,7 @@ public class LoginUserTest {
     public void checkRegisterUserWithoutData() {
         String RESPONSE_ERROR = "Missing email or username";
 
-        ServiceUserRequest serviceUserRequest = new ServiceUserRequest();
+        ServiceUserRequest serviceUserRequest = ServiceUserRequest.builder().build();
         BadRequestResponse badRequestResponse = UsersApi.loginUserWithoutData(serviceUserRequest);
         Assert.assertEquals(RESPONSE_ERROR, badRequestResponse.getError());
     }
