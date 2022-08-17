@@ -4,21 +4,21 @@ import api.UsersApi;
 import api.models.CreateUserRequest;
 import api.models.CreateUserResponse;
 import io.qameta.allure.Epic;
-import io.qameta.allure.junit4.DisplayName;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
 import static java.time.Clock.systemUTC;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Epic("Проверка создания записей пользователей.")
-public class CreateUserTest {
+class CreateUserTest {
 
     @Test
     @DisplayName("Проверка успешного создания пользователя.")
-    public void checkCreateUser() {
+    void checkCreateUser() {
         String name = "Name";
         String job = "Job";
         LocalDateTime responseTime = LocalDateTime.now(systemUTC());
@@ -35,14 +35,13 @@ public class CreateUserTest {
 
     @Test
     @DisplayName("Проверка создания пользователя с пустым запросом.")
-    public void checkCreateUserWithoutBody() {
+    void checkCreateUserWithoutBody() {
         UsersApi.createUserWithWrongData();
     }
 
     @Test
     @DisplayName("Проверка создания пользователя с некорректным запросом.")
-    // TODO Add parametrized data
-    public void checkCreateUserWithWrongData() {
+    void checkCreateUserWithWrongData() {
         int name = 10;
         int job = 10;
         UsersApi.createUserWithWrongData(name, job);

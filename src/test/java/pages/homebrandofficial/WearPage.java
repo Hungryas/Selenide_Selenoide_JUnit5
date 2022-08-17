@@ -11,7 +11,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static tests.homebrandofficial.BaseTest.cfg;
 
 public class WearPage {
@@ -46,7 +46,7 @@ public class WearPage {
                 .map(e -> e.getAttribute("data-product-price-def")).filter(Objects::nonNull)
                 .map(Integer::parseInt).toList();
         List<Integer> expectedPricesOrder = actualPricesOrder.stream().sorted().toList();
-        assertEquals("Sort error!", expectedPricesOrder, actualPricesOrder);
+        assertEquals(expectedPricesOrder, actualPricesOrder, "Sort error!");
         return this;
     }
 }

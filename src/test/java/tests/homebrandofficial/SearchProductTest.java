@@ -2,7 +2,7 @@ package tests.homebrandofficial;
 
 import com.codeborne.selenide.Configuration;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.qameta.allure.junit4.DisplayName;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -12,18 +12,18 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 
 /**
  * Selenium
  */
 //@Epic("Проверки поиска товара.")
-public class SearchProductTest {
+class SearchProductTest {
     private WebDriver driver;
 
-//    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         WebDriverManager.edgedriver().setup();
         Configuration.browser = "edge";
         Configuration.driverManagerEnabled = true;
@@ -35,9 +35,9 @@ public class SearchProductTest {
         driver.get("https://homebrandofficial.ru/wear");
     }
 
-//    @Test
+    @Test @Disabled
     @DisplayName("Успешная проверка поиска товара по названию.")
-    public void checkingSearchProduct() {
+    void checkingSearchProduct() {
         String productName = "ФУТБОЛКА ПОЛО ЧЕРНАЯ (М)";
         Integer productPrice = 2800;
         Integer productCount = 1;
@@ -59,8 +59,8 @@ public class SearchProductTest {
         assertEquals(productPrice, actualPrice);
     }
 
-//    @After
-    public void teardown() {
+    @AfterEach
+    void teardown() {
         driver.quit();
     }
 }

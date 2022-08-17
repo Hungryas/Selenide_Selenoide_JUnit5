@@ -5,18 +5,18 @@ import api.models.BadRequestResponse;
 import api.models.LoginUserResponse;
 import api.models.ServiceUserRequest;
 import io.qameta.allure.Epic;
-import io.qameta.allure.junit4.DisplayName;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Epic("Проверка авторизации пользователя.")
-public class LoginUserTest {
-    private final String USER_EMAIL = "eve.holt@reqres.in";
+class LoginUserTest {
+    private final static String USER_EMAIL = "eve.holt@reqres.in";
 
     @Test
     @DisplayName("Проверка успешной авторизации пользователя.")
-    public void checkLoginUserSuccess() {
+    void checkLoginUserSuccess() {
         String USER_PASS = "i*gjsH26$b";
         String USER_TOKEN = "QpwL5tke4Pnpja7X4";
 
@@ -31,7 +31,7 @@ public class LoginUserTest {
 
     @Test
     @DisplayName("Проверка авторизации пользователя без указания пароля.")
-    public void checkLoginUserWithoutPass() {
+    void checkLoginUserWithoutPass() {
         String RESPONSE_ERROR = "Missing password";
 
         ServiceUserRequest serviceUserRequest = ServiceUserRequest.builder().email(USER_EMAIL).build();
@@ -41,7 +41,7 @@ public class LoginUserTest {
 
     @Test
     @DisplayName("Проверка авторизации пользователя без данных.")
-    public void checkRegisterUserWithoutData() {
+    void checkRegisterUserWithoutData() {
         String RESPONSE_ERROR = "Missing email or username";
 
         ServiceUserRequest serviceUserRequest = ServiceUserRequest.builder().build();

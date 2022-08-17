@@ -5,15 +5,15 @@ import com.codeborne.selenide.Selenide;
 import config.ProjectConfig;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.aeonbits.owner.ConfigFactory;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public abstract class BaseTest {
 
-    public static ProjectConfig cfg = ConfigFactory.create(ProjectConfig.class);
+    public final static ProjectConfig cfg = ConfigFactory.create(ProjectConfig.class);
 
-    @Before
+    @BeforeEach
     public void setup() {
         WebDriverManager.chromedriver().setup();
         Configuration.browser = "chrome";
@@ -26,7 +26,7 @@ public abstract class BaseTest {
         Configuration.browserCapabilities = capabilities;
     }
 
-    @After
+    @AfterEach
     public void teardown() {
         Selenide.closeWebDriver();
     }

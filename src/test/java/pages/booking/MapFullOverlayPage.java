@@ -8,7 +8,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Selenide.$;
 import static java.time.Duration.ofSeconds;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MapFullOverlayPage {
     private final SelenideElement CARDS_CONTAINER = $(".map_left_cards__container");
