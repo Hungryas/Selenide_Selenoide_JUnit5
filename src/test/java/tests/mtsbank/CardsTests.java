@@ -15,26 +15,24 @@ import pages.mtsbank.cards.CreditCardPage;
 import pages.mtsbank.cards.DebetCardPage;
 import pages.mtsbank.cards.VirtualCardPage;
 
-
 class CardsTests extends BaseTest {
     private static final MainPage MAIN_PAGE = new MainPage();
 
     @BeforeEach
     void preview() {
         MAIN_PAGE.openMainPage().
-                openHoverMenu("karti", "Карты");
+                openHoverMenu("chastnim-licam/karti", "Карты");
     }
 
     @AllArgsConstructor
     @Getter
     private enum Cards {
-        CREDIT(new CreditCardPage(), "karti/all/credit", "Кредитные карты"),
-        DEBET(new DebetCardPage(), "karti/all/debet", "Дебетовые карты"),
-        VIRTUAL(new VirtualCardPage(), "karti/all/virtual", "Виртуальные карты");
+        CREDIT(new CreditCardPage()),
+        DEBET(new DebetCardPage()),
+        VIRTUAL(new VirtualCardPage());
 
         private final CardPage cardPage;
-        private final String subSection;
-        private final String subSectionText;
+
     }
 
     @Epic("Desktop Tests")
@@ -43,8 +41,8 @@ class CardsTests extends BaseTest {
     @ParameterizedTest
     @EnumSource(value = Cards.class)
     void checkCardNamesIsCorrect(Cards card) {
-        MAIN_PAGE.openMenuPage(card.getSubSection(), card.getSubSectionText());
         CardPage cardPage = card.getCardPage();
+        MAIN_PAGE.openMenuPage(cardPage.getRelativeUrl(), cardPage.getSubsectionText());
         cardPage.checkCardName();
     }
 
@@ -54,8 +52,8 @@ class CardsTests extends BaseTest {
     @ParameterizedTest
     @EnumSource(value = Cards.class)
     void checkCardButtonIsExist(Cards card) {
-        MAIN_PAGE.openMenuPage(card.getSubSection(), card.getSubSectionText());
         CardPage cardPage = card.getCardPage();
+        MAIN_PAGE.openMenuPage(cardPage.getRelativeUrl(), cardPage.getSubsectionText());
         cardPage.checkCardButton();
     }
 }

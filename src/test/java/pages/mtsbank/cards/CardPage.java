@@ -16,10 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Getter
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public abstract class CardPage {
-    String cardName = null;
     static String BUTTON_ORDER_TEXT = "Оформить карту";
     static String BUTTON_INFO_TEXT = "О карте";
     static ElementsCollection CARD_NAME_LIST = $$x("//h2");
+
+    String relativeUrl = null;
+    String subsectionText = null;
+    String cardName = null;
 
     @Step("Проверить, что названия всех карт на странице содержат название раздела.")
     public void checkCardName() {

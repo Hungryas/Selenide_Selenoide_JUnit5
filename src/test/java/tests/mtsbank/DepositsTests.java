@@ -24,19 +24,17 @@ class DepositsTests extends BaseTest {
     @BeforeEach
     void preview() {
         MAIN_PAGE.openMainPage().
-                openHoverMenu("vkladi", "Вклады и счета");
+                openHoverMenu("chastnim-licam/vkladi", "Вклады и счета");
     }
 
     @AllArgsConstructor
     @Getter
     private enum Deposits {
-        VKLAD(new VkladPage(), "vkladi/mts-vklad", "МТС Вклад до 8,30%"),
-        VKLAD_DOHODNIY(new VkladDohodniyPage(), "vkladi/mts-vklad-dohodniy", "МТС Доходный до 7,85%"),
-        SCHET(new SchetPage(), "vkladi/mts-schet", "Накопительный МТС Счет до 7%");
+        VKLAD(new VkladPage()),
+        VKLAD_DOHODNIY(new VkladDohodniyPage()),
+        SCHET(new SchetPage());
 
         private final DepositPage depositPage;
-        private final String subSection;
-        private final String subSectionText;
     }
 
     @Epic("Desktop Tests")
@@ -45,8 +43,8 @@ class DepositsTests extends BaseTest {
     @ParameterizedTest
     @EnumSource(value = Deposits.class)
     void trySendCorrectData(Deposits deposit) {
-        MAIN_PAGE.openMenuPage(deposit.getSubSection(), deposit.getSubSectionText());
         DepositPage depositPage = deposit.getDepositPage();
+        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
         Client client = new Client();
 
         depositPage.
@@ -61,8 +59,8 @@ class DepositsTests extends BaseTest {
     @ParameterizedTest
     @EnumSource(value = Deposits.class)
     void trySendDataWithoutFIO(Deposits deposit) {
-        MAIN_PAGE.openMenuPage(deposit.getSubSection(), deposit.getSubSectionText());
         DepositPage depositPage = deposit.getDepositPage();
+        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
         Client client = new Client().toBuilder().
                 withFIO("").build();
 
@@ -78,8 +76,8 @@ class DepositsTests extends BaseTest {
     @ParameterizedTest
     @EnumSource(value = Deposits.class)
     void trySendDataWithWrongFIO(Deposits deposit) {
-        MAIN_PAGE.openMenuPage(deposit.getSubSection(), deposit.getSubSectionText());
         DepositPage depositPage = deposit.getDepositPage();
+        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
         Client client = new Client().toBuilder().
                 withFIO("a!,").build();
 
@@ -95,8 +93,8 @@ class DepositsTests extends BaseTest {
     @ParameterizedTest
     @EnumSource(value = Deposits.class)
     void trySendDataWithoutPhone(Deposits deposit) {
-        MAIN_PAGE.openMenuPage(deposit.getSubSection(), deposit.getSubSectionText());
         DepositPage depositPage = deposit.getDepositPage();
+        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
         Client client = new Client().toBuilder().
                 withPhone("").build();
 
@@ -112,8 +110,8 @@ class DepositsTests extends BaseTest {
     @ParameterizedTest
     @EnumSource(value = Deposits.class)
     void trySendDataWithWrongPhone(Deposits deposit) {
-        MAIN_PAGE.openMenuPage(deposit.getSubSection(), deposit.getSubSectionText());
         DepositPage depositPage = deposit.getDepositPage();
+        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
         Client client = new Client().toBuilder().
                 withPhone("800").build();
 
@@ -129,8 +127,8 @@ class DepositsTests extends BaseTest {
     @ParameterizedTest
     @EnumSource(value = Deposits.class)
     void trySendDataWithoutEmail(Deposits deposit) {
-        MAIN_PAGE.openMenuPage(deposit.getSubSection(), deposit.getSubSectionText());
         DepositPage depositPage = deposit.getDepositPage();
+        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
         Client client = new Client().toBuilder().
                 withEmail("").build();
 
@@ -146,8 +144,8 @@ class DepositsTests extends BaseTest {
     @ParameterizedTest
     @EnumSource(value = Deposits.class)
     void trySendDataWithWrongEmail(Deposits deposit) {
-        MAIN_PAGE.openMenuPage(deposit.getSubSection(), deposit.getSubSectionText());
         DepositPage depositPage = deposit.getDepositPage();
+        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
         Client client = new Client().toBuilder().
                 withEmail("ivanov@mail,ru").build();
 
@@ -164,8 +162,8 @@ class DepositsTests extends BaseTest {
     @ParameterizedTest
     @EnumSource(value = Deposits.class)
     void trySendDataWithoutConditionAgree(Deposits deposit) {
-        MAIN_PAGE.openMenuPage(deposit.getSubSection(), deposit.getSubSectionText());
         DepositPage depositPage = deposit.getDepositPage();
+        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
         Client client = new Client();
 
         depositPage.
@@ -181,8 +179,8 @@ class DepositsTests extends BaseTest {
     @ParameterizedTest
     @EnumSource(value = Deposits.class)
     void trySendWithoutData(Deposits deposit) {
-        MAIN_PAGE.openMenuPage(deposit.getSubSection(), deposit.getSubSectionText());
         DepositPage depositPage = deposit.getDepositPage();
+        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
         waitHeaderElementIsExist();
         depositPage.
                 clickNext().

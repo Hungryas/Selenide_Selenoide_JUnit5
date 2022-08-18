@@ -11,8 +11,8 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class MainPage {
 
-    private final static String MENU_LOCATOR = "//a[@href='/chastnim-licam/%s/']/div";
-    private final static String SUBMENU_LOCATOR = "//div/a[@href='/chastnim-licam/%s/']";
+    private final static String MENU_LOCATOR = "//a[@href='/%s/']/div";
+    private final static String SUBMENU_LOCATOR = "//div/a[@href='/%s/']";
 
     @Step("Открыть главную страницу.")
     public MainPage openMainPage() {

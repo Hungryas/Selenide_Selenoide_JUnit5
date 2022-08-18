@@ -13,8 +13,8 @@ import lombok.experimental.FieldDefaults;
 public class Client {
     static final GenerexVault GENEREX_VAULT = GenerexVault.getInstance();
 
-    String FIO = GENEREX_VAULT.getCorrectFIO();
-    String phone = GENEREX_VAULT.getCorrectPhone();
-    String email = GENEREX_VAULT.getCorrectEmail();
+    String FIO = GENEREX_VAULT.randomFIO();
+    String phone = GENEREX_VAULT.randomPhone();
+    String email = GENEREX_VAULT.randomEmail();
 }
 

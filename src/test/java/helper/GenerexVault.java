@@ -20,15 +20,15 @@ public class GenerexVault {
         return instance;
     }
 
-    public String getCorrectFIO() {
+    public String randomFIO() {
         return CORRECT_FIO.random();
     }
 
-    public String getCorrectPhone() {
+    public String randomPhone() {
         return CORRECT_PHONE.random();
     }
 
-    public String getCorrectEmail() {
+    public String randomEmail() {
         return CORRECT_EMAIL.random();
     }
 }

@@ -2,6 +2,9 @@ package pages.mtsbank.deposit;
 
 import elements.DepositInputForm;
 import io.qameta.allure.Step;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 import model.Client;
 
 import java.util.List;
@@ -12,7 +15,11 @@ import static elements.DepositInputForm.HelperText.*;
 import static java.time.Duration.ofSeconds;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Getter
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public abstract class DepositPage extends DepositInputForm {
+    String relativeUrl = null;
+    String subsectionText = null;
 
     @Step("Ввести данные клиента: {client}")
     public DepositPage enterClientData(Client client) {
