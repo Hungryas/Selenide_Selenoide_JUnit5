@@ -2,9 +2,7 @@ package pages.mtsbank.deposit;
 
 import elements.DepositInputForm;
 import io.qameta.allure.Step;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.experimental.FieldDefaults;
 import model.Client;
 
 import java.util.List;
@@ -12,18 +10,15 @@ import java.util.List;
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static elements.DepositInputForm.HelperText.*;
-import static java.time.Duration.ofSeconds;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Getter
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public abstract class DepositPage extends DepositInputForm {
-    String relativeUrl = null;
-    String subsectionText = null;
+    private String linkText;
 
     @Step("Ввести данные клиента: {client}")
     public DepositPage enterClientData(Client client) {
-        FIO.shouldBe(exist, ofSeconds(60)).
+        FIO.shouldBe(exist).
                 scrollTo().
                 sendKeys(client.getFIO());
         PHONE.sendKeys(client.getPhone());
@@ -44,9 +39,8 @@ public abstract class DepositPage extends DepositInputForm {
     }
 
     @Step("Проверка отображения поля ввода кода подтверждения из СМС.")
-    public DepositPage confirmationFieldIsDisplayed() {
+    public void checkConfirmationFieldIsDisplayed() {
         CONFIRMATION_FIELD.shouldBe(visible);
-        return this;
     }
 
     @Step("Проверка отображения текста для некорректно заполненного поля.")

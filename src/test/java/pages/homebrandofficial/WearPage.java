@@ -10,7 +10,8 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static tests.homebrandofficial.BaseTest.cfg;
 
@@ -28,21 +29,21 @@ public class WearPage {
 
     @Step("Открыть карточку товара: {productName}")
     public void openProductCard(String productName) {
-        PRODUCTS_LIST_BY_NAME.shouldHave(sizeGreaterThan(0)).findBy(text(productName)).click();
+        PRODUCTS_LIST_BY_NAME.shouldHave(sizeGreaterThan(0))
+                .findBy(text(productName)).click();
     }
 
     @Step("Выбрать метод сортировки: {value}")
     public WearPage selectSortingOrder(String value) {
-        SORT_SELECT_OPTIONS.shouldHave(sizeGreaterThan(0)).findBy(attribute("value", value)).click();
+        SORT_SELECT_OPTIONS.shouldHave(sizeGreaterThan(0))
+                .findBy(attribute("value", value)).click();
         return this;
     }
 
     @Step("Проверить порядок сортировки.")
-    public WearPage checkPricesOrder() {
-        // TODO ISSUE Element is not attached to the page document
-        sleep(1000);
+    public WearPage checkPricesSort() {
         PRODUCTS_PRICE_TEXT.shouldHave(size(24));
-        List<Integer> actualPricesOrder = PRODUCTS_PRICE_TEXT.stream()
+        List<Integer> actualPricesOrder = PRODUCTS_PRICE_TEXT.asDynamicIterable().stream()
                 .map(e -> e.getAttribute("data-product-price-def")).filter(Objects::nonNull)
                 .map(Integer::parseInt).toList();
         List<Integer> expectedPricesOrder = actualPricesOrder.stream().sorted().toList();
