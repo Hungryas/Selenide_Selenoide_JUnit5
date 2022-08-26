@@ -1,13 +1,14 @@
 package tests.homebrandofficial;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import config.ProjectConfig;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import static com.codeborne.selenide.Configuration.*;
 
 public abstract class BaseTest {
 
@@ -16,14 +17,14 @@ public abstract class BaseTest {
     @BeforeEach
     public void setup() {
         WebDriverManager.chromedriver().setup();
-        Configuration.browser = "chrome";
-        Configuration.browserSize = "1920x1080";
+        browser = "chrome";
+        browserSize = "1920x1080";
 
         // Selenoid
-        Configuration.remote = "http://localhost:4444/wd/hub";
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("enableVNC", true);
-        Configuration.browserCapabilities = capabilities;
+        remote = "http://localhost:4444/wd/hub";
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setCapability("enableVNC", true);
+        browserCapabilities = chromeOptions;
     }
 
     @AfterEach

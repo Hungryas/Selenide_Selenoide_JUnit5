@@ -23,6 +23,7 @@ class SortProductsTest extends BaseTest {
     @DisplayName("Проверка порядка сортировки \"Цена: по возрастанию\".")
     @Description("Проверка порядка сортировки \"Цена: по возрастанию\" всех цен на странице.")
     void checkSortAscByPrice() {
-        wearPage.selectSortingOrder("price:asc").checkPricesOrder();
+        wearPage.selectSortingOrder("price:asc")
+                .checkPricesSort();
     }
 }
