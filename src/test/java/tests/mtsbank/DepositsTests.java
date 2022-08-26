@@ -3,64 +3,63 @@ package tests.mtsbank;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import model.Client;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import pages.mtsbank.MainPage;
 import pages.mtsbank.deposit.DepositPage;
+import pages.mtsbank.deposit.DohodniyPage;
 import pages.mtsbank.deposit.SchetPage;
-import pages.mtsbank.deposit.VkladDohodniyPage;
 import pages.mtsbank.deposit.VkladPage;
 
+import java.util.stream.Stream;
+
 import static elements.PageContent.waitHeaderElementIsExist;
+import static org.junit.jupiter.api.Named.named;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class DepositsTests extends BaseTest {
+
     private static final MainPage MAIN_PAGE = new MainPage();
 
     @BeforeEach
     void preview() {
         MAIN_PAGE.openMainPage().
-                openHoverMenu("chastnim-licam/vkladi", "Вклады и счета");
+                openHoverMenu("Вклады и счета");
     }
 
-    @AllArgsConstructor
-    @Getter
-    private enum Deposits {
-        VKLAD(new VkladPage()),
-        VKLAD_DOHODNIY(new VkladDohodniyPage()),
-        SCHET(new SchetPage());
-
-        private final DepositPage depositPage;
+    private static Stream<Arguments> depositPages() {
+        return Stream.of(
+                arguments(named("МТС Вклад", new VkladPage())),
+                arguments(named("МТС Доходный", new DohodniyPage())),
+                arguments(named("Накопительный МТС Счет", new SchetPage())));
     }
 
     @Epic("Desktop Tests")
     @Story("Проверка заполнения полей форм.")
     @DisplayName("Заказать карту для вклада с корректным заполнением всех полей.")
-    @ParameterizedTest
-    @EnumSource(value = Deposits.class)
-    void trySendCorrectData(Deposits deposit) {
-        DepositPage depositPage = deposit.getDepositPage();
-        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("depositPages")
+    void trySendCorrectData(DepositPage depositPage) {
+        MAIN_PAGE.openMenuPage(depositPage.getLinkText());
         Client client = new Client();
 
         depositPage.
                 enterClientData(client).
                 clickNext().
-                confirmationFieldIsDisplayed();
+                checkConfirmationFieldIsDisplayed();
     }
 
     @Epic("Desktop Tests")
     @Story("Проверка заполнения полей форм.")
     @DisplayName("Заказать карту для вклада без указания ФИО.")
-    @ParameterizedTest
-    @EnumSource(value = Deposits.class)
-    void trySendDataWithoutFIO(Deposits deposit) {
-        DepositPage depositPage = deposit.getDepositPage();
-        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("depositPages")
+    void trySendDataWithoutFIO(DepositPage depositPage) {
+        MAIN_PAGE.openMenuPage(depositPage.getLinkText());
         Client client = new Client().toBuilder().
                 withFIO("").build();
 
@@ -73,11 +72,10 @@ class DepositsTests extends BaseTest {
     @Epic("Desktop Tests")
     @Story("Проверка заполнения полей форм.")
     @DisplayName("Заказать карту для вклада с указанием некорректного ФИО.")
-    @ParameterizedTest
-    @EnumSource(value = Deposits.class)
-    void trySendDataWithWrongFIO(Deposits deposit) {
-        DepositPage depositPage = deposit.getDepositPage();
-        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("depositPages")
+    void trySendDataWithWrongFIO(DepositPage depositPage) {
+        MAIN_PAGE.openMenuPage(depositPage.getLinkText());
         Client client = new Client().toBuilder().
                 withFIO("a!,").build();
 
@@ -90,11 +88,10 @@ class DepositsTests extends BaseTest {
     @Epic("Desktop Tests")
     @Story("Проверка заполнения полей форм.")
     @DisplayName("Заказать карту для вклада без указания номера телефона.")
-    @ParameterizedTest
-    @EnumSource(value = Deposits.class)
-    void trySendDataWithoutPhone(Deposits deposit) {
-        DepositPage depositPage = deposit.getDepositPage();
-        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("depositPages")
+    void trySendDataWithoutPhone(DepositPage depositPage) {
+        MAIN_PAGE.openMenuPage(depositPage.getLinkText());
         Client client = new Client().toBuilder().
                 withPhone("").build();
 
@@ -107,11 +104,10 @@ class DepositsTests extends BaseTest {
     @Epic("Desktop Tests")
     @Story("Проверка заполнения полей форм.")
     @DisplayName("Заказать карту для вклада с указанием некорректного номера телефона.")
-    @ParameterizedTest
-    @EnumSource(value = Deposits.class)
-    void trySendDataWithWrongPhone(Deposits deposit) {
-        DepositPage depositPage = deposit.getDepositPage();
-        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("depositPages")
+    void trySendDataWithWrongPhone(DepositPage depositPage) {
+        MAIN_PAGE.openMenuPage(depositPage.getLinkText());
         Client client = new Client().toBuilder().
                 withPhone("800").build();
 
@@ -124,28 +120,26 @@ class DepositsTests extends BaseTest {
     @Epic("Desktop Tests")
     @Story("Проверка заполнения полей форм.")
     @DisplayName("Заказать карту для вклада без указания email.")
-    @ParameterizedTest
-    @EnumSource(value = Deposits.class)
-    void trySendDataWithoutEmail(Deposits deposit) {
-        DepositPage depositPage = deposit.getDepositPage();
-        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("depositPages")
+    void trySendDataWithoutEmail(DepositPage depositPage) {
+        MAIN_PAGE.openMenuPage(depositPage.getLinkText());
         Client client = new Client().toBuilder().
                 withEmail("").build();
 
         depositPage.
                 enterClientData(client).
                 clickNext().
-                confirmationFieldIsDisplayed();
+                checkConfirmationFieldIsDisplayed();
     }
 
     @Epic("Desktop Tests")
     @Story("Проверка заполнения полей форм.")
     @DisplayName("Заказать карту для вклада с указанием некорректного email.")
-    @ParameterizedTest
-    @EnumSource(value = Deposits.class)
-    void trySendDataWithWrongEmail(Deposits deposit) {
-        DepositPage depositPage = deposit.getDepositPage();
-        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("depositPages")
+    void trySendDataWithWrongEmail(DepositPage depositPage) {
+        MAIN_PAGE.openMenuPage(depositPage.getLinkText());
         Client client = new Client().toBuilder().
                 withEmail("ivanov@mail,ru").build();
 
@@ -159,11 +153,10 @@ class DepositsTests extends BaseTest {
     @Epic("Desktop Tests")
     @Story("Проверка заполнения полей форм.")
     @DisplayName("Заказать карту для вклада без согласия на обработку персональных данных.")
-    @ParameterizedTest
-    @EnumSource(value = Deposits.class)
-    void trySendDataWithoutConditionAgree(Deposits deposit) {
-        DepositPage depositPage = deposit.getDepositPage();
-        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("depositPages")
+    void trySendDataWithoutConditionAgree(DepositPage depositPage) {
+        MAIN_PAGE.openMenuPage(depositPage.getLinkText());
         Client client = new Client();
 
         depositPage.
@@ -176,11 +169,10 @@ class DepositsTests extends BaseTest {
     @Epic("Desktop Tests")
     @Story("Проверка заполнения полей форм.")
     @DisplayName("Заказать карту для вклада без заполнения полей.")
-    @ParameterizedTest
-    @EnumSource(value = Deposits.class)
-    void trySendWithoutData(Deposits deposit) {
-        DepositPage depositPage = deposit.getDepositPage();
-        MAIN_PAGE.openMenuPage(depositPage.getRelativeUrl(), depositPage.getSubsectionText());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("depositPages")
+    void trySendWithoutData(DepositPage depositPage) {
+        MAIN_PAGE.openMenuPage(depositPage.getLinkText());
         waitHeaderElementIsExist();
         depositPage.
                 clickNext().

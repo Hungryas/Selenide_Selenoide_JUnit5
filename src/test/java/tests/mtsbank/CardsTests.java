@@ -3,17 +3,21 @@ package tests.mtsbank;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import pages.mtsbank.MainPage;
 import pages.mtsbank.cards.CardPage;
 import pages.mtsbank.cards.CreditCardPage;
 import pages.mtsbank.cards.DebetCardPage;
 import pages.mtsbank.cards.VirtualCardPage;
+
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Named.named;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class CardsTests extends BaseTest {
     private static final MainPage MAIN_PAGE = new MainPage();
@@ -21,39 +25,33 @@ class CardsTests extends BaseTest {
     @BeforeEach
     void preview() {
         MAIN_PAGE.openMainPage().
-                openHoverMenu("chastnim-licam/karti", "Карты");
+                openHoverMenu("Карты");
     }
 
-    @AllArgsConstructor
-    @Getter
-    private enum Cards {
-        CREDIT(new CreditCardPage()),
-        DEBET(new DebetCardPage()),
-        VIRTUAL(new VirtualCardPage());
-
-        private final CardPage cardPage;
-
+    private static Stream<Arguments> cardPages() {
+        return Stream.of(
+                arguments(named("Кредитные карты", new CreditCardPage())),
+                arguments(named("Дебетовые карты", new DebetCardPage())),
+                arguments(named("Виртуальные карты", new VirtualCardPage())));
     }
 
     @Epic("Desktop Tests")
     @Story("Тестирование верстки")
     @DisplayName("Проверка отображения в разделе только одного вида карт.")
-    @ParameterizedTest
-    @EnumSource(value = Cards.class)
-    void checkCardNamesIsCorrect(Cards card) {
-        CardPage cardPage = card.getCardPage();
-        MAIN_PAGE.openMenuPage(cardPage.getRelativeUrl(), cardPage.getSubsectionText());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("cardPages")
+    void checkCardNamesIsCorrect(CardPage cardPage) {
+        MAIN_PAGE.openMenuPage(cardPage.getLinkText());
         cardPage.checkCardName();
     }
 
     @Epic("Desktop Tests")
     @Story("Тестирование верстки")
     @DisplayName("Проверка отображения кнопок для каждой карты.")
-    @ParameterizedTest
-    @EnumSource(value = Cards.class)
-    void checkCardButtonIsExist(Cards card) {
-        CardPage cardPage = card.getCardPage();
-        MAIN_PAGE.openMenuPage(cardPage.getRelativeUrl(), cardPage.getSubsectionText());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("cardPages")
+    void checkCardButtonIsExist(CardPage cardPage) {
+        MAIN_PAGE.openMenuPage(cardPage.getLinkText());
         cardPage.checkCardButton();
     }
 }
