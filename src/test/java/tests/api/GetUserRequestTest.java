@@ -26,7 +26,6 @@ class GetUserRequestTest {
     @DisplayName("Успешное получение данных пользователя.")
     void checkGetUser() {
         GetUserRequest getUserRequest = UsersApi.getUserSuccess(TEST_USER.getId());
-        // TODO Add validate JsonSchema
         assertEquals(getUserRequest.getId(), TEST_USER.getId());
         assertEquals(getUserRequest.getEmail(), TEST_USER.getEmail());
         assertEquals(getUserRequest.getFirstName(), TEST_USER.getFirstName());
