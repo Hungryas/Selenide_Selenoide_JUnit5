@@ -6,6 +6,7 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
+import static io.restassured.filter.log.LogDetail.BODY;
 import static io.restassured.http.ContentType.JSON;
 
 public class Specification {
@@ -17,14 +18,14 @@ public class Specification {
                 .addFilter(new AllureRestAssured())
                 .setBaseUri(BASE_URI)
                 .setContentType(JSON)
-//                .log(BODY)
+                .log(BODY)
                 .build();
     }
 
     public static ResponseSpecification responseSpec(int statusCode) {
         return new ResponseSpecBuilder()
                 .expectStatusCode(statusCode)
-//                .log(BODY)
+                .log(BODY)
                 .build();
     }
 }

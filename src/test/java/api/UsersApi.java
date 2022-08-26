@@ -10,6 +10,7 @@ import static api.Specification.requestSpec;
 import static api.Specification.responseSpec;
 import static api.endpoints.UsersEndpoints.*;
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.apache.http.HttpStatus.*;
 
 public class UsersApi {
@@ -54,6 +55,7 @@ public class UsersApi {
                 .get(String.format(USER.getUrl(), userId))
                 .then()
                 .spec(responseSpec(SC_OK))
+                .assertThat().body(matchesJsonSchemaInClasspath("SchemaGetUser.json"))
                 .extract().jsonPath().getObject("data", GetUserRequest.class);
     }
 
